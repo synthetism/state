@@ -5,10 +5,13 @@ interface StateConfig {
   initialState: Record<string, unknown>;
 }
 
+// Event handler type for proper typing
+type EventHandler = (data: unknown) => void;
+
 interface StateProps extends UnitProps {
   ownerId: string;
   currentState: Record<string, unknown>;
-  eventHandlers: Map<string, Function[]>;
+  eventHandlers: Map<string, EventHandler[]>;
 }
 
 class State extends Unit<StateProps> {
@@ -49,17 +52,22 @@ class State extends Unit<StateProps> {
   }
   
   // Event system
-  on(event: string, handler: Function): void {
+  on(event: string, handler: EventHandler): void {
     if (!this.props.eventHandlers.has(event)) {
       this.props.eventHandlers.set(event, []);
     }
-    this.props.eventHandlers.get(event)!.push(handler);
+    const handlers = this.props.eventHandlers.get(event);
+    if (handlers) {
+      handlers.push(handler);
+    }
   }
   
   // Public emit for manual events
   emit(event: string, data: unknown): void {
     const handlers = this.props.eventHandlers.get(event) || [];
-    handlers.forEach(handler => handler(data));
+    for (const handler of handlers) {
+      handler(data);
+    }
   }
   
   // Teaching state observation (not mutation)
@@ -70,7 +78,7 @@ class State extends Unit<StateProps> {
         get: (...args: unknown[]) => this.get(args[0] as string),
         has: (...args: unknown[]) => this.has(args[0] as string),
         getAll: () => this.getAll(),
-        on: (...args: unknown[]) => this.on(args[0] as string, args[1] as Function),
+        on: (...args: unknown[]) => this.on(args[0] as string, args[1] as EventHandler),
         // Not teaching: set, emit (only owner can mutate)
       }
     };

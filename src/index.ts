@@ -9,13 +9,16 @@
 
 export { State, type StateConfig, type StateProps } from './state.unit.js';
 
+// Convenience factory for common patterns
+export function createState(unitId: string, initialState: Record<string, unknown> = {}) {
+  return State.create({ unitId, initialState });
+}
+
+
 // Factory function for clean API
 export const STATE = {
   create: (config: StateConfig) => State.create(config)
 };
-
-// Re-export types for convenience
-export type { TeachingContract } from '@synet/unit';
 
 import type { StateConfig } from './state.unit.js';
 import { State } from './state.unit.js';
