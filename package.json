@@ -1,6 +1,6 @@
 {
   "name": "@synet/state",
-  "version": "0.0.1-dev.0",
+  "version": "0.0.1-dev.2",
   "description": "Simple state management for complex Unit compositions",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -16,6 +16,7 @@
     "build": "tsc",
     "test": "vitest run",
     "dev:test": "vitest",
+    "demo": "tsx demo/test-enhanced-state.ts",
     "clean": "rm -rf dist",
     "prebuild": "npm run clean",
     "coverage": "vitest run --coverage",
@@ -50,6 +51,6 @@
   "homepage": "https://synthetism.ai",
   "license": "MIT",
   "dependencies": {
-    "@synet/unit": "^1.0.6"
+    "@synet/unit": "^1.0.7-dev.1"
   }
 }
