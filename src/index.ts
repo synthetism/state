@@ -8,7 +8,7 @@
  */
 
 export { State, type StateConfig, type StateProps } from './state.unit.js';
-export { StateAsync, type StateAsyncConfig, type StateAsyncProps } from './state-async.unit.js';
+export { StateAsync, type StateAsyncConfig, type StateAsyncProps, type StorageBinding } from './state-async.unit.js';
 
 // Convenience factory for common patterns
 export function createState(unitId: string, initialState: Record<string, unknown> = {}) {
